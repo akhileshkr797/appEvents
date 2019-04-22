@@ -1,0 +1,19 @@
+{
+    "name": "appevents",
+    "version": "1.0.0",
+    "description": "Sample app Events",
+    "main": "main.js",
+    "scripts": {
+        "start": "electron ."
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/akhileshkr797/appEvents.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/akhileshkr797/appEvents/issues"
+    },
+    "homepage": "https://github.com/akhileshkr797/appEvents#readme"
+}
