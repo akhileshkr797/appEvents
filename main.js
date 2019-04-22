@@ -34,4 +34,16 @@ function createWindow() {
 
 app.on('ready', () => {
     createWindow()
+    console.log('ready')
+})
+
+app.on('window-all-closed', () => {
+    app.quit()
+    console.log('window-all-closed')
+})
+
+app.on('activate', (event, hasVisibleWindows) => {
+    if (!hasVisibleWindows) {
+        createWindow()
+    }
 })
