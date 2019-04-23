@@ -4,7 +4,7 @@ const path = require('path')
 const url = require('url')
 const fs = require('fs')
 
-let mainWindow
+let mainWindow, secondWindow
 
 var force_quit = false
 let template = [{
@@ -20,36 +20,32 @@ let template = [{
 }]
 
 
-function createWindow() {
-    mainWindow = new BrowserWindow({
-        show: false,
-        width: 1000,
-        height: 700,
-        title: 'appEvents',
-        backgroundColor: '#cde'
-    })
+function createWindow(fileStr, options) {
+    let win = new BrowserWindow(options)
 
-    mainWindow.loadURL(url.format({
-        pathname: path.join(__dirname, 'index.html'),
+    win.loadURL(url.format({
+        pathname: path.join(__dirname, fileStr),
         protocol: 'file:',
         slashes: true
     }))
 
-    mainWindow.once('ready-to-show', () => {
+    win.once('ready-to-show', () => {
         console.log('ready-to-show')
-        mainWindow.show()
+        win.show()
     })
 
-    mainWindow.on('close', function(e) {
+    win.on('close', function(e) {
         console.log('close')
-        mainWindow = null
+        win = null
     })
+
+    return win
 
 }
 
 app.on('activate', function() {
     console.log('activate')
-    if (mainWindow == null) {
+    if (win == null) {
         createWindow()
     }
 })
@@ -62,7 +58,7 @@ app.on('before-quit', function(e) {
 
 app.on('will-quit', function() {
     console.log('will-quit')
-    mainWindow = null
+    win = null
 })
 
 app.on('window-all-closed', () => {
@@ -74,12 +70,42 @@ app.on('window-all-closed', () => {
 
 })
 
+//browser-window-focus..and..browser-window-blur
+
+app.on('browser-window-focus', event => {
+    console.log('browser-window-focus:', event.sender.webContents.browserWindowOptions.title)
+});
+
+app.on('browser-window-blur', event => {
+
+    console.log('browser-window-blur:', event.sender.webContents.browserWindowOptions.title)
+
+});
+
+
+
 
 
 
 app.on('ready', () => {
     const menu = Menu.buildFromTemplate(template)
     Menu.setApplicationMenu(menu)
-    createWindow()
+
     console.log('ready')
+
+    mainWindow = createWindow('index.html', {
+        show: false,
+        width: 1000,
+        height: 700,
+        title: 'mainWindow',
+        backgroundColor: '#cde'
+    })
+
+    secondWindow = createWindow('about.html', {
+        show: false,
+        width: 700,
+        height: 400,
+        title: 'secondWindow',
+        backgroundColor: '#cfe'
+    })
 })
