@@ -70,7 +70,10 @@ app.on('window-all-closed', () => {
 
 })
 
-//browser-window-focus..and..browser-window-blur
+//browser-window-focus
+//browser-window-blur
+//browser-window-created
+//web-contents-created
 
 app.on('browser-window-focus', event => {
     console.log('browser-window-focus:', event.sender.webContents.browserWindowOptions.title)
@@ -81,6 +84,14 @@ app.on('browser-window-blur', event => {
     console.log('browser-window-blur:', event.sender.webContents.browserWindowOptions.title)
 
 });
+
+app.on('browser-window-created', event => {
+    console.log('browser-window-created:')
+})
+
+app.on('web-contents-created', event => {
+    console.log('web-contents-created:')
+})
 
 
 
